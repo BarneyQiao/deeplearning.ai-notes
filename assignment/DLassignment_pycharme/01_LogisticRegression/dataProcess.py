@@ -22,6 +22,15 @@ def load_dataset():
 
     return train_set_x_orig, train_set_y_orig, test_set_x_orig, test_set_y_orig, classes
 
+'''
+处理数据集，向量化，归一化
+'''
+def processing(X):
+    shape = X.shape
+    X_flattern = X.reshape(shape[1]*shape[2]*shape[3],-1) #转化成每一列都是一个样本
+
+    X_flattern = X_flattern/255 #归一化
+    return X_flattern
 
 
 
@@ -31,18 +40,24 @@ def load_dataset():
 train_set_x_orig, train_set_y, test_set_x_orig, test_set_y, classes = load_dataset()
 
 #查看数据集
-print(train_set_x_orig.shape) #(209, 64, 64, 3)
-print(train_set_y.shape) #(1, 209)
-print(test_set_x_orig.shape)  # (50, 64, 64, 3)
-print(test_set_y.shape) #  (1, 50)
-print(classes.shape) # (2,)
-print(classes) #以二进制形式存储的 [b'non-cat' b'cat']
-print(train_set_y)
-print(train_set_y[:,1].shape)  #squeeze函数就是为了获得这个0 (1,)
-print(classes[np.squeeze(train_set_y[:,1])].decode('utf-8')) #np.squeeze这个函数的作用是 从数组的形状中删除单维度条目，
-                                                # 即把shape中为1的维度去掉
-plt.imshow(train_set_x_orig[5])
-plt.show()
+# print(train_set_x_orig.shape) #(209, 64, 64, 3)
+# print(train_set_y.shape) #(1, 209)
+# print(test_set_x_orig.shape)  # (50, 64, 64, 3)
+# print(test_set_y.shape) #  (1, 50)
+# print(classes.shape) # (2,)
+# print(classes) #以二进制形式存储的 [b'non-cat' b'cat']
+# print(train_set_y)
+# print(train_set_y[:,1].shape)  #squeeze函数就是为了获得这个0 (1,)
+# print(classes[np.squeeze(train_set_y[:,1])].decode('utf-8')) #np.squeeze这个函数的作用是 从数组的形状中删除单维度条目，
+#                                                 # 即把shape中为1的维度去掉
+# plt.imshow(train_set_x_orig[5])
+# plt.show()
+
+# 处理数据集
+train_set_x_flat =  processing(train_set_x_orig)
+print(train_set_x_flat.shape)  #(12288,209)
+test_set_x_flat = processing(test_set_x_orig)
+print(test_set_x_flat.shape)  #(12288,50)
 
 
 
